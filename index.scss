@@ -1,0 +1,37 @@
+/*
+  The following generates classes equivalent to gap-*
+  that instead of applying a flex-row-gap, apply
+  margins instead.
+
+  Make sure to include AFTER the following imports
+  @import "bootstrap/scss/functions";
+  @import "variables";
+  @import "bootstrap/scss/variables";  // where $spacers lives
+  @import "bootstrap/scss/maps";
+  @import "bootstrap/scss/mixins";
+  @import "bootstrap/scss/utilities";
+
+*/
+
+/* index.scss */
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    @each $n, $v in $spacers {
+      .cap#{$infix}-#{$n} {
+        margin: -0.5 * $v;
+      }
+
+      .cap#{$infix}-#{$n} > * {
+        margin: 0.5 * $v;
+      }
+    }
+  }
+}
+
+/*
+   They're not exactly identical out-of-the-box, but
+   at least now you don't have a broken site on iOS < 14
+
+   Now eveywhere there's gap-*, change to cap-*
+*/
